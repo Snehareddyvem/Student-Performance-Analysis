@@ -84,64 +84,58 @@ VALUES
 (4, 100, 65),
 (5, 100, 85);
 SELECT * FROM Attendance;
-#1. Find CSE students
+##1. Find CSE students
 SELECT * FROM Students
 WHERE department = 'CSE';
 
-#2. Find ECE students
+##2. Find ECE students
 SELECT * FROM Students
 WHERE department = 'ECE';
 
-#3.Find highest mark
+##3.Find highest mark
 SELECT MAX(marks_obtained) AS highest_marks
 FROM Marks;
 
-#4.Find marks greater than 80
+##4.Find marks greater than 80
 SELECT * FROM Marks
 WHERE marks_obtained > 80;
 
-#5. Find the lowest mark
+##5. Find the lowest mark
 SELECT MIN(marks_obtained) AS lowest_marks
 FROM Marks;
 
-#6.Calculate the average mark
+##6.Calculate the average mark
 SELECT AVG(marks_obtained) AS average_marks
 FROM Marks;
 
-#7.Calculate total marks for each student
-SELECT student_id,
-       SUM(marks_obtained) AS total_marks
-FROM Marks
-GROUP BY student_id;
-
-#8. Count the total number of students
+##7. Count the total number of students
 SELECT COUNT(*) AS total_students
 FROM Students;
 
-#9.Count students in each department
+##8.Count students in each department
 SELECT department,
        COUNT(*) AS total_students
 FROM Students
 GROUP BY department;
 
-#10.Display students in alphabetical order
+##9.Display students in alphabetical order
 SELECT * FROM Students
 ORDER BY student_name ASC;
 
-#11.Display student names and subject marks
+##10.Display student names and subject marks
 SELECT s.student_name, sub.subject_name,
        m.marks_obtained
 FROM Students s
 JOIN Marks m ON s.student_id = m.student_id
 JOIN Subjects sub ON m.subject_id = sub.subject_id;
 
-#12.Find students who scored 90 or above
+##11.Find students who scored 90 or above
 SELECT s.student_name, m.marks_obtained
 FROM Students s
 JOIN Marks m ON s.student_id = m.student_id
 WHERE m.marks_obtained >= 90;
 
-#13.Find students who failed a subject
+##12.Find students who failed a subject
 SELECT s.student_name, sub.subject_name,
        m.marks_obtained
 FROM Students s
@@ -149,47 +143,41 @@ JOIN Marks m ON s.student_id = m.student_id
 JOIN Subjects sub ON m.subject_id = sub.subject_id
 WHERE m.marks_obtained < sub.pass_marks;
 
-#14.Find students with attendance below 75%
-SELECT
-    s.student_name,
-    a.attended_classes * 100.0 / a.total_classes
-        AS attendance_percentage
-FROM Students s
-JOIN Attendance a
-    ON s.student_id = a.student_id
-WHERE a.attended_classes * 100.0 / a.total_classes < 75;
+##13.Find students who attended more than 80 classes
+SELECT student_id, attended_classes
+FROM Attendance
+WHERE attended_classes > 80;
 
-#15.Find the student with the highest attendance
-SELECT
-    s.student_name,
-    a.attended_classes * 100.0 / a.total_classes AS attendance_percentage
-FROM Students s
-JOIN Attendance a
-    ON s.student_id = a.student_id
-ORDER BY attendance_percentage DESC
-LIMIT 1;
+##14.Count the number of male and female students
+SELECT gender, COUNT(*) AS total_students
+FROM Students
+GROUP BY gender;
 
-#16.Display the top 3 marks
+##15.Display the top 3 marks
 SELECT marks_obtained
 FROM Marks
 ORDER BY marks_obtained DESC
 LIMIT 3;
 
-#17.Display all subject names
+##16.Display all subject names
 SELECT subject_name
 FROM Subjects;
 
-#18.Find marks between 70 and 90
-SELECT *FROM Marks
+##17.Find marks between 70 and 90
+SELECT *
+FROM Marks
 WHERE marks_obtained BETWEEN 70 AND 90;
 
-#19.Display the top 3 marks
-SELECT marks_obtained
-FROM Marks
-ORDER BY marks_obtained DESC
-LIMIT 3;
+##18.Display only student names
+SELECT student_name FROM Students;
 
-#20.Display students from CSE who scored above 80
+##19.Calculate total marks for each student
+SELECT student_id,
+       SUM(marks_obtained) AS total_marks
+FROM Marks
+GROUP BY student_id;
+
+##20.Display students from CSE who scored above 80
 SELECT DISTINCT s.student_name
 FROM Students s
 JOIN Marks m ON s.student_id = m.student_id
